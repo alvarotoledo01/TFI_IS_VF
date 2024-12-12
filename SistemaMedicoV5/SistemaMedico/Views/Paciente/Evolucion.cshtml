@@ -1,4 +1,5 @@
-﻿
+﻿@using SistemaMedico.Repository
+
 @model SistemaMedicoV3.Models.Paciente;
 
 @{
@@ -20,11 +21,11 @@
         <i class="bi bi-arrow-left"></i> Volver
     </a>
     <div class="container mt-4">
-        
+
         <div class="card shadow-sm p-4">
             <h1 class="text-primary text-center mb-4">Nueva Evolución para @Model.NombreCompleto</h1>
 
-       
+
             <!-- Botón para alternar diagnósticos -->
             <div class="mb-4 text-center">
                 <button type="button" class="btn btn-info shadow-sm" id="toggleDiagnosticos">
@@ -52,33 +53,50 @@
                     <label for="diagnostico" class="form-label fw-bold">Seleccione el Diagnóstico</label>
                     <select class="form-select shadow-sm" id="diagnostico" name="idDiagnostico" required>
                         <option value="" disabled selected>-- Seleccionar Diagnóstico --</option>
+                        @foreach (var enf in EnfermedadesRepository.EnfermedadesDisponibles)
+                        {
+                            <option value="@enf">@enf</option>
+                        }
 
-                        
                     </select>
                 </div>
 
 
-
+                <!-- Observaciones Generales -->
+                <div class="mb-4">
+                    <label for="observacionesGenerales" class="form-label fw-bold">Informe</label>
+                    <textarea class="form-control shadow-sm" id="observacionesGenerales" name="observacionesGenerales" rows="3"></textarea>
+                </div>
 
                 <!-- Plantilla de Evolución -->
                 <div class="mb-4">
                     <label for="plantillaEvolucion" class="form-label fw-bold">Seleccionar Plantilla de Evolución:</label>
                     <select class="form-select shadow-sm" id="plantillaEvolucion" name="idPlantillaEvolucion">
-                        <option value="" disabled selected>-- Seleccionar --</option>
+                        <option value="" disabled selected>-- Seleccionar (Opcional) --</option>
                         <!-- Opciones dinámicas -->
+                        @foreach (var plant in SistemaMedicoV3.Repositories.PlantillasRepository.PlantillasDisponibles)
+                        {
+                            <option value="@plant">@plant</option>
+                        }
                     </select>
                 </div>
            
+                
 
             <!-- Sección de Receta Digital -->
             <h3 class="text-secondary mb-3"><i class="bi bi-file-earmark-medical"></i> Receta Digital</h3>
             <div class="mb-4">
                 <label for="medicamento" class="form-label fw-bold">Medicamentos:</label>
                 <div class="d-flex align-items-center gap-2">
-                    <select class="form-select shadow-sm" id="medicamento" name="idMedicamento">
-                        <option value="" disabled selected>-- Seleccionar Medicamento --</option>
-                        <!-- Opciones dinámicas -->
-                    </select>
+                        <div class="input-group">
+                            <input type="text" class="form-control shadow-sm" id="medicamento" name="idMedicamento" placeholder="Buscar medicamento..." aria-label="Buscar medicamento...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i> <!-- Usa el ícono de lupa de Bootstrap Icons -->
+                                </span>
+                            </div>
+                        </div>
+
                     <input type="number" class="form-control shadow-sm" id="cantidad" name="cantidad" value="1" min="1" />
                     <button type="button" class="btn btn-outline-primary shadow-sm"><i class="bi bi-plus-circle"></i> Añadir</button>
                 </div>
@@ -98,15 +116,14 @@
                 <label for="plantillaPedido" class="form-label fw-bold">Seleccionar Plantilla de Pedido:</label>
                 <select class="form-select shadow-sm" id="plantillaPedido" name="idPlantillaPedido">
                     <option value="" disabled selected>-- Seleccionar --</option>
-                    <!-- Opciones dinámicas -->
+                        @foreach (var plr in PlantillasLabRepository.PlantillasLabDisponibles)
+                        {
+                            <option value="@plr">@plr</option>
+                        }
                 </select>
             </div>
 
-            <!-- Observaciones Generales -->
-            <div class="mb-4">
-                <label for="observacionesGenerales" class="form-label fw-bold">Observaciones de la Evolución:</label>
-                <textarea class="form-control shadow-sm" id="observacionesGenerales" name="observacionesGenerales" rows="3"></textarea>
-            </div>
+            
 
             <button type="submit" class="btn btn-primary btn-lg shadow-sm w-100">Guardar Evolución <i class="bi bi-save"></i></button>
         </form>

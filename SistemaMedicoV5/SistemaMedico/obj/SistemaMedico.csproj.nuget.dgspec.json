@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {}
+    "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {
+    "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj",
         "projectName": "SistemaMedico",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj",
+        "projectPath": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\obj\\",
+        "outputPath": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

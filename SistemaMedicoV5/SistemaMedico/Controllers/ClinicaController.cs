@@ -2,6 +2,7 @@
 using SistemaMedico.Models;
 using SistemaMedicoV3.Models;
 using Microsoft.AspNetCore.Mvc;
+using SistemaMedico.Repository;
 
 namespace SistemaMedico.Controllers
 {
@@ -93,5 +94,13 @@ namespace SistemaMedico.Controllers
 
             return View("~/Views/Paciente/Evolucion.cshtml", paciente); // Carga la vista Evolucion.cshtml con el modelo del paciente
         }
+
+        
+
+        
+
+       
+
     }
+
 } 

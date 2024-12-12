@@ -7651,11 +7651,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\Tests\\Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\Tests\\Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\Tests\\Tests.csproj",
+      "projectPath": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\Tests\\Tests.csproj",
       "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\Tests\\obj\\",
+      "outputPath": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -7676,8 +7676,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {
-              "projectPath": "C:\\Users\\Usuario\\Desktop\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj"
+            "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj": {
+              "projectPath": "C:\\Users\\Usuario\\Desktop\\TFI_IS_VF\\SistemaMedicoV5\\SistemaMedico\\SistemaMedico.csproj"
             }
           }
         }

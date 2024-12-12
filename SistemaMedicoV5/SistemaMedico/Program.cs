@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<UsuariosRepository>(); // Registrando UsuariosRepository
 builder.Services.AddTransient<AutenticarService>();  // Registrando AutenticarService
 
+// En Program.cs 
+builder.Services.AddScoped<EnfermedadesRepository>();
+
+
 // Registrar el servicio PacientesRepository
 builder.Services.AddScoped<PacientesRepository>(); // Registrar PacientesRepository con el ciclo de vida adecuado (Scoped)
 //añadido el 11/12 a las 17:26 "posible solucion de construccion del builder"
