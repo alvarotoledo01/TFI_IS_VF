@@ -1,0 +1,130 @@
+﻿
+@model SistemaMedicoV3.Models.Paciente;
+
+@{
+    ViewData["Title"] = "Nueva Evolución";
+    Layout = null; // No se usa layout
+}
+
+<html>
+<head>
+    <title>Evolución Médica</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/Evolucion.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Botón de Volver -->
+
+    <a href="@Url.Action("Detalles", "Paciente", new { id = Model.DNI })" class="btn btn-outline-secondary shadow-sm">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+    <div class="container mt-4">
+        
+        <div class="card shadow-sm p-4">
+            <h1 class="text-primary text-center mb-4">Nueva Evolución para @Model.NombreCompleto</h1>
+
+       
+            <!-- Botón para alternar diagnósticos -->
+            <div class="mb-4 text-center">
+                <button type="button" class="btn btn-info shadow-sm" id="toggleDiagnosticos">
+                    <i class="bi bi-arrow-repeat"></i> Alternar
+                </button>
+            </div>
+
+            <form method="post" action="@Url.Action("AgregarEvolucion", "Clinica")">
+                <input type="hidden" name="dni" value="@Model.DNI" />
+
+                <!-- Diagnóstico Previo -->
+                <div id="diagnosticoPrevioContainer" class="mb-4">
+                    <label for="diagnostico" class="form-label fw-bold">Diagnóstico Previo:</label>
+                    <select class="form-select shadow-sm" id="diagnostico" name="idDiagnostico" required>
+                        <option value="" disabled selected>-- Seleccionar Diagnóstico --</option>
+                        @foreach (var diagnostico in Model.HistoriaClinica.Diagnosticos)
+                        {
+                            <option value="@diagnostico.Id">@diagnostico.Enfermedad</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Diagnóstico Nuevo -->
+                <div id="diagnosticoNuevoContainer" class="mb-4 d-none">
+                    <label for="diagnostico" class="form-label fw-bold">Seleccione el Diagnóstico</label>
+                    <select class="form-select shadow-sm" id="diagnostico" name="idDiagnostico" required>
+                        <option value="" disabled selected>-- Seleccionar Diagnóstico --</option>
+
+                        
+                    </select>
+                </div>
+
+
+
+
+                <!-- Plantilla de Evolución -->
+                <div class="mb-4">
+                    <label for="plantillaEvolucion" class="form-label fw-bold">Seleccionar Plantilla de Evolución:</label>
+                    <select class="form-select shadow-sm" id="plantillaEvolucion" name="idPlantillaEvolucion">
+                        <option value="" disabled selected>-- Seleccionar --</option>
+                        <!-- Opciones dinámicas -->
+                    </select>
+                </div>
+           
+
+            <!-- Sección de Receta Digital -->
+            <h3 class="text-secondary mb-3"><i class="bi bi-file-earmark-medical"></i> Receta Digital</h3>
+            <div class="mb-4">
+                <label for="medicamento" class="form-label fw-bold">Medicamentos:</label>
+                <div class="d-flex align-items-center gap-2">
+                    <select class="form-select shadow-sm" id="medicamento" name="idMedicamento">
+                        <option value="" disabled selected>-- Seleccionar Medicamento --</option>
+                        <!-- Opciones dinámicas -->
+                    </select>
+                    <input type="number" class="form-control shadow-sm" id="cantidad" name="cantidad" value="1" min="1" />
+                    <button type="button" class="btn btn-outline-primary shadow-sm"><i class="bi bi-plus-circle"></i> Añadir</button>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="instruccionesReceta" class="form-label fw-bold">Instrucciones de la Receta:</label>
+                <textarea class="form-control shadow-sm" id="instruccionesReceta" name="instruccionesReceta" rows="3"></textarea>
+            </div>
+
+            <!-- Sección de Pedido de Laboratorio -->
+            <h3 class="text-secondary mb-3"><i class="bi bi-clipboard-data"></i> Pedido de Laboratorio</h3>
+            <div class="mb-4">
+                <label for="observacionesPedido" class="form-label fw-bold">Observaciones del Pedido:</label>
+                <textarea class="form-control shadow-sm" id="observacionesPedido" name="observacionesPedido" rows="3"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="plantillaPedido" class="form-label fw-bold">Seleccionar Plantilla de Pedido:</label>
+                <select class="form-select shadow-sm" id="plantillaPedido" name="idPlantillaPedido">
+                    <option value="" disabled selected>-- Seleccionar --</option>
+                    <!-- Opciones dinámicas -->
+                </select>
+            </div>
+
+            <!-- Observaciones Generales -->
+            <div class="mb-4">
+                <label for="observacionesGenerales" class="form-label fw-bold">Observaciones de la Evolución:</label>
+                <textarea class="form-control shadow-sm" id="observacionesGenerales" name="observacionesGenerales" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg shadow-sm w-100">Guardar Evolución <i class="bi bi-save"></i></button>
+        </form>
+    </div>
+
+    
+</div>
+    <script>
+        // Alternar entre Diagnósticos Previos y Nuevos
+        document.getElementById("toggleDiagnosticos").addEventListener("click", () => {
+            const previo = document.getElementById("diagnosticoPrevioContainer");
+            const nuevo = document.getElementById("diagnosticoNuevoContainer");
+
+            previo.classList.toggle("d-none");
+            nuevo.classList.toggle("d-none");
+        });
+
+        
+    </script>
+</body>
+</html>
