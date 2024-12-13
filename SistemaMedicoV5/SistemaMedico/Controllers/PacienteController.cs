@@ -21,6 +21,7 @@ namespace SistemaMedico.Controllers
             }
             return View(paciente); // Pasar el paciente como modelo a la vista
         }
-
-    }
+       
+    
+}
 }

@@ -21,7 +21,7 @@ builder.Services.AddSingleton<MedicosRepository>();
 builder.Services.AddScoped<PacienteService>();  // Registrar PacienteService para que pueda recibir PacientesRepository
 //añadido el 11/12 a las 17:23 "posible solucion de construccion del builder"
 builder.Services.AddScoped<ApiResponseService>();
-builder.Services.AddScoped<RecetaDigitalService>();
+
 
 // Configurar sesiones 12/12 2:35
 builder.Services.AddSession(options =>

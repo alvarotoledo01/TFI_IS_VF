@@ -33,14 +33,14 @@
                 </button>
             </div>
 
-            <form method="post" action="@Url.Action("AgregarEvolucion", "Clinica")">
+            <form id="formulario-evolucion" method="post" action="@Url.Action("Detalles", "Paciente", new { dni = Model.DNI })">
                 <input type="hidden" name="dni" value="@Model.DNI" />
 
                 <!-- Diagnóstico Previo -->
                 <div id="diagnosticoPrevioContainer" class="mb-4">
                     <label for="diagnostico" class="form-label fw-bold">Diagnóstico Previo:</label>
                     <select class="form-select shadow-sm" id="diagnostico" name="idDiagnostico" required>
-                        <option value="" disabled selected>-- Seleccionar Diagnóstico --</option>
+                        <option id="uno" value="" disabled selected>-- Seleccionar Diagnóstico --</option>
                         @foreach (var diagnostico in Model.HistoriaClinica.Diagnosticos)
                         {
                             <option value="@diagnostico.Id">@diagnostico.Enfermedad</option>
@@ -52,7 +52,7 @@
                 <div id="diagnosticoNuevoContainer" class="mb-4 d-none">
                     <label for="diagnostico" class="form-label fw-bold">Seleccione el Diagnóstico</label>
                     <select class="form-select shadow-sm" id="diagnostico" name="idDiagnostico" required>
-                        <option value="" disabled selected>-- Seleccionar Diagnóstico --</option>
+                        <option id="dos" value="" disabled selected>-- Seleccionar Diagnóstico --</option>
                         @foreach (var enf in EnfermedadesRepository.EnfermedadesDisponibles)
                         {
                             <option value="@enf">@enf</option>
@@ -80,68 +80,235 @@
                         }
                     </select>
                 </div>
-           
-                
 
-            <!-- Sección de Receta Digital -->
-            <h3 class="text-secondary mb-3"><i class="bi bi-file-earmark-medical"></i> Receta Digital</h3>
-            <div class="mb-4">
-                <label for="medicamento" class="form-label fw-bold">Medicamentos:</label>
-                <div class="d-flex align-items-center gap-2">
+
+
+
+                <!-- Sección de Receta Digital -->
+                <h3 class="text-secondary mb-3"><i class="bi bi-file-earmark-medical"></i> Receta Digital</h3>
+                <div class="mb-4">
+                    <label for="medicamento" class="form-label fw-bold">Medicamentos:</label>
+                    <div class="d-flex align-items-center gap-2">
                         <div class="input-group">
                             <input type="text" class="form-control shadow-sm" id="medicamento" name="idMedicamento" placeholder="Buscar medicamento..." aria-label="Buscar medicamento...">
                             <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="bi bi-search"></i> <!-- Usa el ícono de lupa de Bootstrap Icons -->
-                                </span>
+                                <button type="button" id="buscarMedicamento" class="btn btn-outline-secondary">
+                                    <i class="bi bi-search"></i>
+                                </button>
                             </div>
                         </div>
 
-                    <input type="number" class="form-control shadow-sm" id="cantidad" name="cantidad" value="1" min="1" />
-                    <button type="button" class="btn btn-outline-primary shadow-sm"><i class="bi bi-plus-circle"></i> Añadir</button>
-                </div>
-            </div>
-            <div class="mb-4">
-                <label for="instruccionesReceta" class="form-label fw-bold">Instrucciones de la Receta:</label>
-                <textarea class="form-control shadow-sm" id="instruccionesReceta" name="instruccionesReceta" rows="3"></textarea>
-            </div>
 
-            <!-- Sección de Pedido de Laboratorio -->
-            <h3 class="text-secondary mb-3"><i class="bi bi-clipboard-data"></i> Pedido de Laboratorio</h3>
-            <div class="mb-4">
-                <label for="observacionesPedido" class="form-label fw-bold">Observaciones del Pedido:</label>
-                <textarea class="form-control shadow-sm" id="observacionesPedido" name="observacionesPedido" rows="3"></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="plantillaPedido" class="form-label fw-bold">Seleccionar Plantilla de Pedido:</label>
-                <select class="form-select shadow-sm" id="plantillaPedido" name="idPlantillaPedido">
-                    <option value="" disabled selected>-- Seleccionar --</option>
+                        <button type="button" class="btn btn-outline-primary shadow-sm"><i class="bi bi-plus-circle"></i> Crear Receta</button>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="instruccionesReceta" class="form-label fw-bold">Instrucciones de la Receta:</label>
+                    <textarea class="form-control shadow-sm" id="instruccionesReceta" name="instruccionesReceta" rows="3"></textarea>
+                </div>
+
+                <!-- Sección de Pedido de Laboratorio -->
+                <h3 class="text-secondary mb-3"><i class="bi bi-clipboard-data"></i> Pedido de Laboratorio</h3>
+                <div class="mb-4">
+                    <label for="observacionesPedido" class="form-label fw-bold">Observaciones del Pedido:</label>
+                    <textarea class="form-control shadow-sm" id="observacionesPedido" name="observacionesPedido" rows="3"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="plantillaPedido" class="form-label fw-bold">Seleccionar Plantilla de Pedido:</label>
+                    <select class="form-select shadow-sm" id="plantillaPedido" name="idPlantillaPedido">
+                        <option value="" disabled selected>-- Seleccionar (Opcional) --</option>
+                        <!-- Opciones dinámicas -->
                         @foreach (var plr in PlantillasLabRepository.PlantillasLabDisponibles)
                         {
                             <option value="@plr">@plr</option>
                         }
-                </select>
+                    </select>
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-primary btn-lg shadow-sm w-100" id="guardar-evolucion">
+                    Guardar Evolución <i class="bi bi-save"></i>
+                </button>
+
+                
+            </form>
+            <!-- Contenedor del cartel -->
+            <div id="mensaje-exito" style="display: none; position: fixed; top: 30%; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+                <p>Registro de evolución exitoso</p>
+                <a id="aceptar" href="@Url.Action("Detalles", "Paciente", new { id = Model.DNI })"  style="background-color: #fff; border: none; color: #28a745; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Aceptar</a>
             </div>
-
-            
-
-            <button type="submit" class="btn btn-primary btn-lg shadow-sm w-100">Guardar Evolución <i class="bi bi-save"></i></button>
-        </form>
     </div>
 
     
 </div>
     <script>
-        // Alternar entre Diagnósticos Previos y Nuevos
-        document.getElementById("toggleDiagnosticos").addEventListener("click", () => {
-            const previo = document.getElementById("diagnosticoPrevioContainer");
-            const nuevo = document.getElementById("diagnosticoNuevoContainer");
+                document.addEventListener('DOMContentLoaded', function () {
+            // Referencias a los elementos del formulario
+            const toggleDiagnosticosBtn = document.getElementById("toggleDiagnosticos");
+            const diagnosticoPrevioContainer = document.getElementById("diagnosticoPrevioContainer");
+            const diagnosticoNuevoContainer = document.getElementById("diagnosticoNuevoContainer");
+            const formularioEvolucion = document.getElementById("formulario-evolucion");
+            const mensajeExito = document.getElementById("mensaje-exito");
 
-            previo.classList.toggle("d-none");
-            nuevo.classList.toggle("d-none");
+            const diagnosticoPrevioSelect = document.getElementById('diagnostico');
+            const diagnosticoNuevoSelect = document.querySelector('#diagnosticoNuevoContainer select');
+            const observacionesGenerales = document.getElementById('observacionesGenerales');
+            const plantillaPedidoSelect = document.getElementById('plantillaPedido');
+            const observacionesPedido = document.getElementById('observacionesPedido');
+            const medicamentoInput = document.getElementById("medicamento");
+            const cantidadInput = document.getElementById("cantidad");
+
+            // Alternar entre diagnóstico previo y nuevo
+            toggleDiagnosticosBtn.addEventListener("click", () => {
+                diagnosticoPrevioContainer.classList.toggle("d-none");
+                diagnosticoNuevoContainer.classList.toggle("d-none");
+            });
+
+            // Función para habilitar o deshabilitar los campos de observación
+            function toggleTextarea() {
+                const isDiagnosticoSelected = diagnosticoPrevioSelect.value || diagnosticoNuevoSelect.value;
+                if (!isDiagnosticoSelected) {
+                    observacionesGenerales.disabled = true;
+                    observacionesGenerales.value = '';
+                    observacionesPedido.disabled = true;
+                    observacionesPedido.value = '';
+                } else {
+                    observacionesGenerales.disabled = false;
+                    if (plantillaPedidoSelect.value) {
+                        observacionesPedido.disabled = false;
+                    } else {
+                        observacionesPedido.disabled = true;
+                        observacionesPedido.value = '';
+                    }
+                }
+            }
+
+            // Evento para habilitar los campos de observación al seleccionar diagnóstico
+            diagnosticoPrevioSelect.addEventListener('change', toggleTextarea);
+            diagnosticoNuevoSelect.addEventListener('change', toggleTextarea);
+
+            // Evento para habilitar el textarea de pedido de laboratorio
+            plantillaPedidoSelect.addEventListener('change', function () {
+                if (diagnosticoPrevioSelect.value || diagnosticoNuevoSelect.value) {
+                    if (plantillaPedidoSelect.value) {
+                        observacionesPedido.disabled = false;
+                    } else {
+                        observacionesPedido.disabled = true;
+                        observacionesPedido.value = '';
+                    }
+                }
+            });
+
+            // Función para completar los textarea con la plantilla seleccionada
+            function completarTextareaConPlantilla() {
+                // Completar el textarea de observaciones generales con la plantilla seleccionada
+                const selectedPlantillaEvolucion = document.getElementById('plantillaEvolucion').value;
+                if (selectedPlantillaEvolucion && !observacionesGenerales.disabled) {
+                    observacionesGenerales.value = selectedPlantillaEvolucion;
+                }
+
+                // Completar el textarea de pedido con la plantilla seleccionada
+                const selectedPlantillaPedido = plantillaPedidoSelect.value;
+                if (selectedPlantillaPedido && !observacionesPedido.disabled) {
+                    observacionesPedido.value = selectedPlantillaPedido;
+                }
+            }
+
+            // Capturar el cambio en el select para plantillaEvolucion
+            document.getElementById('plantillaEvolucion').addEventListener('change', completarTextareaConPlantilla);
+
+            // Capturar el cambio en el select para plantillaPedido
+            plantillaPedidoSelect.addEventListener('change', completarTextareaConPlantilla);
+
+            // Inicializar el estado de los campos
+            toggleTextarea();
+
+            // Lógica para agregar medicamento (opcional)
+            document.querySelector("button[type='button']").addEventListener("click", function() {
+                const medicamento = medicamentoInput.value.trim();
+                const cantidad = cantidadInput.value.trim();
+                if (medicamento && cantidad > 0) {
+                    // Aquí puedes agregar la lógica para añadir el medicamento a una lista (si es necesario)
+                    alert(`Medicamento: ${medicamento}, Cantidad: ${cantidad} añadido a la receta.`);
+                    // Limpiar campos después de añadir
+                    medicamentoInput.value = "";
+                    cantidadInput.value = "1";
+                } else if (medicamento && cantidad <= 0) {
+                    alert("Por favor, ingrese una cantidad válida.");
+                }
+            });
+
+            // Función para manejar el envío del formulario
+            formularioEvolucion.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevenir el envío por defecto
+
+                // Validación del diagnóstico
+                const diagnosticoSelect = diagnosticoPrevioSelect.value || diagnosticoNuevoSelect.value;
+                if (!diagnosticoSelect) {
+                    alert("Por favor, seleccione un diagnóstico.");
+                    return;
+                }
+
+                // Crear el objeto con los datos del formulario
+                const formData = {
+                    diagnostico: diagnosticoSelect,
+                    observacionesGenerales: observacionesGenerales.value,
+                    //observacionesPedido: observacionesPedido.value,
+                    //medicamento: medicamentoInput.value.trim(),
+                    //cantidad: cantidadInput.value.trim()
+                };
+
+                // Llamada al método AgregarEvolucion en el backend (AJAX)
+                fetch('/Clinica/AgregarEvolucion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Mostrar mensaje de éxito
+                        mensajeExito.style.display = "block";
+                        // Redirigir después de un tiempo (si es necesario)
+                        setTimeout(function() {
+                            window.location.href = "/Paciente/Detalles"; // Redirige al detalle del paciente
+                        }, 5000); // Espera 5 segundos antes de redirigir
+                    } else {
+                        // Manejo de errores
+                        alert("Hubo un error al guardar la evolución. Intente nuevamente.");
+                    }
+                })
+                .catch(error => {
+                    // Manejo de errores en la solicitud AJAX
+                    alert("Hubo un error al intentar enviar la evolución.");
+                    console.error(error);
+                });
+            });
+
+            // Botón Guardar Evolución
+            document.getElementById("guardar-evolucion").addEventListener("click", function(event) {
+                event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+
+                // Muestra el mensaje de éxito
+                document.getElementById("mensaje-exito").style.display = "block";
+
+                // Enviar el formulario después de mostrar el mensaje
+                setTimeout(function() {
+                    document.getElementById("formulario-evolucion").submit();
+                }, 2000); // Espera 2 segundos antes de enviar el formulario para que el mensaje sea visible
+            });
+
+            // Redirigir después de aceptar
+            document.getElementById("aceptar").addEventListener("click", function() {
+                window.location.href = "@Url.Action("Detalles", "Paciente", new { dni = Model.DNI })";
+            });
         });
 
-        
     </script>
 </body>
 </html>

@@ -16,6 +16,7 @@ namespace SistemaMedico.Controllers
             _apiService = apiService;
         }
 
+
         public void AgregarEvolucion(int dni, Guid idDiagnostico, string informe, string nombreCompletoMedico)
         {
             // Recuperar el nombre del médico desde la sesión

@@ -43,7 +43,7 @@ namespace SistemaMedicoV3.Controllers
                 
                 return View("~/Views/Home/Index.cshtml");
             }
-
+            
             
             ViewBag.Error = "Email o contraseña incorrectos.";
             return View("~/Views/Home/Login.cshtml");
